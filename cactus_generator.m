@@ -230,16 +230,16 @@ samplefnc = @() sample(x,CDF,r,n);
 
 sen=1;
 
-% filename = sprintf('cactus_nm_pdf_d%1.1f_l%d_%.2f.mat',sen,c_exp,C);
-% save(filename,'p','x','n','r','xmax');
+filename = sprintf('cactus_s%1.1f_L%d=%.2f.mat',sen,c_exp,C);
+save(filename,'p','x','n','r','xmax');
 
-% filename = sprintf('cactus_cdf_d%1.1f_l%d_%.2f.csv',sen,c_exp,C);
+% filename = sprintf('cactus_s%1.1f_L%d=%.2f_cdf.csv',sen,c_exp,C);
 % csvwrite(filename,CDF)
 
-% filename = sprintf('cactus_nm_p_d%1.1f_l%d_%.2f.csv',sen,c_exp,C);
+% filename = sprintf('cactus_s%1.1f_L%d=%.2f_p.csv',sen,c_exp,C);
 % csvwrite(filename,p);
-
-% filename = sprintf('cactus_nm_x_d%1.1f_l%d_%.2f.csv',sen,c_exp,C);
+ 
+% filename = sprintf('cactus_s%1.1f_L%d=%.2f_x.csv',sen,c_exp,C);
 % csvwrite(filename,x);
 
 end

@@ -242,28 +242,17 @@ CDF = cumsum(p.*A(2,:)');
 samplefnc = @() sample(x,CDF,r,n);
 
 
-% filename = sprintf('cactus_pdf_d%1.1f_l%d_%.2f.mat',sen,c_exp,C);
-% save(filename,'p','x','n','r','xmax');
+filename = sprintf('cactusM_s%1.1f_L%d=%.2f.mat',sen,c_exp,C);
+save(filename,'p','x','n','r','xmax');
 
+filename = sprintf('cactusM_s%1.1f_L%d=%.2f_cdf.csv',sen,c_exp,C);
+csvwrite(filename,CDF)
 
-% filename = sprintf('cactus_cdf_d%1.1f_l%d_%.1f.csv',sen,c_exp,C);
-% csvwrite(filename,CDF)
-
-filename = sprintf('cactus_p_d%1.1f_l%d_%.2f.csv',sen,c_exp,C);
+filename = sprintf('cactusM_s%1.1f_L%d=%.2f_p.csv',sen,c_exp,C);
 csvwrite(filename,p);
-
-filename = sprintf('cactus_x_d%1.1f_l%d_%.2f.csv',sen,c_exp,C);
+ 
+filename = sprintf('cactusM_s%1.1f_L%d=%.2f_x.csv',sen,c_exp,C);
 csvwrite(filename,x);
-
-
-% filename = sprintf('cactus_mono_cdf(n=%d,N=%d,r=%.1f,sigma=%.2f).csv',n,N,r,stddev);
-% csvwrite(filename,CDF);
-% 
-% filename = sprintf('cactus_mono_p(n=%d,N=%d,r=%.1f,sigma=%.2f).csv',n,N,r,stddev);
-% csvwrite(filename,p);
-% 
-% filename = sprintf('cactus_mono_x(n=%d,N=%d,r=%.1f,sigma=%.2f).csv',n,N,r,stddev);
-% csvwrite(filename,x);
 
 end
 
