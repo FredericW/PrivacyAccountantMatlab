@@ -242,16 +242,16 @@ CDF = cumsum(p.*A(2,:)');
 samplefnc = @() sample(x,CDF,r,n);
 
 
-filename = sprintf('cactusM_s%1.1f_L%d=%.2f.mat',sen,c_exp,C);
+filename = sprintf('cactusM_s%1.1f_L%d_c%.2f.mat',sen,c_exp,C);
 save(filename,'p','x','n','r','xmax');
 
-filename = sprintf('cactusM_s%1.1f_L%d=%.2f_cdf.csv',sen,c_exp,C);
+filename = sprintf('cactusM_s%1.1f_L%d_c%.2f_cdf.csv',sen,c_exp,C);
 csvwrite(filename,CDF)
 
-filename = sprintf('cactusM_s%1.1f_L%d=%.2f_p.csv',sen,c_exp,C);
+filename = sprintf('cactusM_s%1.1f_L%d_c%.2f_p.csv',sen,c_exp,C);
 csvwrite(filename,p);
  
-filename = sprintf('cactusM_s%1.1f_L%d=%.2f_x.csv',sen,c_exp,C);
+filename = sprintf('cactusM_s%1.1f_L%d_c%.2f_x.csv',sen,c_exp,C);
 csvwrite(filename,x);
 
 end
