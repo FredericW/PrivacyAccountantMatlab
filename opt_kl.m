@@ -44,7 +44,7 @@
 %  
 % To start, try "cactus_generator(200,8,0.25)" --> command window
 
-function [primobj,x,p,samplefnc] = cactus_generator(n,xmax,C,c_exp,opt_type,r,tol,verbose)
+function [primobj,x,p,samplefnc] = opt_kl(n,xmax,C,c_exp,opt_type,r,tol,verbose)
 
 if nargin < 4
     c_exp = 2;
