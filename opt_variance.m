@@ -1,65 +1,23 @@
-% This function solves the optimization problem
-% minimize max_{|a|<1} D(P(x)||P(x-a))
-% subject to E c(X) <= C
-% Solved using an interior point second-order method.
-% 
-% It actually solves a finite dimensional approximation, which is roughly
-% minimize max_{|a|\le n} \sum_{i=-xmax*n}^{(xmax-1)*n} p(i)*log(p(i)/p(i+a))
-% subject to \sum_i p(i) = 1
-%            \sum_i (i*n)^2*p(i) <= D
-% In the above, n is the parameter that controls the quantization, and xmax
-% determines the range of the distribution that is computed. 
-% 
-% It actually solves a modification of the above optimization
-% problem by replacing the max in the objective with a soft-max given by a
-% log-sum-exp fnuction. That is, the objective function is replaced with
-% log(\sum_{a=1}^n \exp(\sum_{i=-xmax*n}^{(xmax-1)*n} t*p(i)*log(p(i)/p(i+a))))/t
-% This remains a convex function, and for large t, it gives the same
-% solution as the above. The basic technique is an equality-constrained (to 
-% deal with the two constraints) Newton minimization, and then when close 
-% to optimal the t value is increased.
-% 
-% The inputs are:
-%  1. n is the quantization level. Bins are of length 1/n
-%  2. xmax is the size of the interval (from -xmax to +xmax). In the
-%     terminology from the paper, N=xmax*n.
-%  3. C is the cost value
-%  4. c_exp is the cost exponent. That is, the cost function is
-%        c(x)=abs(x)^c_exp (Default is 2)
-%  5. opt_type should be either 1 or 2. 1 solves the problem where the
-%     objective will always be a true achievable bound. 2 solves a simpler
-%     problem, which actually gives a lower bound on the continuous
-%     optimization problem. (Default is 1)
-%  6. r is the geometric fall-off constant (Default is 0.9)
-%  7. tol is the tolerance for the solver. (Default is 1e-8)
-%  8. verbose controls how much information is displayed. 0 does nothing. 
-%     1 prints some data. 2 also plots the candidate distribution. (Default is 2)
-% 
-% The outputs are:
-%  1. primobj is the primal objective value.
-%  2. x is the vector of values at the centers of the quantization bins.
-%  3. p is the solution to the optimization problem.
-%  4. samplefnc is a function that will produce one random sample from the
-%     distribution when called with no arguments.
-%  
-% To start, try "cactus_generator(200,8,0.25)" --> command window
+% This function solves the optimization problem over p_x(a)
+% minimize E_x[Var(A_x)]
+% subject to LDP condition
+%            Distribution validity
+% We solve the problem using a gradient descent method.
+%
+% Under quantization, solving the problem above is equivalent to 
+% solving a finite dimensional optimization problem as follows.
+% Let p(a|x) represent the evaluation of conditional pdf P_A|X at (A,X)=(a,x)
+% minimize E_x[\sum_a a^2 p(a|x)]
+% subject to    p(y-x,x) <= exp(eps) p(y-x',x)
+%               \sum_a p(a,x) = 1
+%               \sum_x p(a,x) = 1
+%               p(a,x) = p(-a,x)
+%               p(a,x)>=0
 
-function [primobj,x,p,samplefnc] = opt_variance(n,xmax,C,c_exp,opt_type,r,tol,verbose)
+function [primobj,x,p] = opt_variance(xmax,amax,m,n,eps,r,tol,verbose)
 
-if nargin < 4
-    c_exp = 2;
-end
-if nargin < 5
-    opt_type = 1;
-end
-if nargin < 6
-    r = 0.9;
-end
-if nargin < 7
-    tol = 1e-8;
-end
 if nargin < 8
-    verbose = 2;
+    fprintf('Error! Not enough arguments!');
 end
 
 N = ceil(n*xmax);
