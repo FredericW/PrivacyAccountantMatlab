@@ -5,7 +5,7 @@ function [totalVariance,pMatrix] = opt_variance(eps,r,axRatio,x_grid,x_P)
 % P(a|x) vs. P(a'|x') such that a+x = a'+x'
 
 q = 1/(x_grid(2)-x_grid(1));
-M = length(x_grid);
+[M] = size(x_grid);
 amax = axRatio*max(x_grid); % amax needs to be AT LEAST 2 times larger.
 amax = floor(amax*q)/q; % Same as above
 N = 2*amax*q+1; % total amount of a samples
