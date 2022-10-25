@@ -1,4 +1,4 @@
-function [totalVariance,pMatrix,a_grid] = opt_variance(eps,delta,r,axRatio,x_grid,x_P)
+function [totalVariance,pMatrix] = opt_variance(eps,delta,r,axRatio,x_grid,x_P)
 % Given the privacy parameter \epsilon,
 % we construct the comparison matrix A,
 % which contains the comparision between each pair of
@@ -95,8 +95,10 @@ fprintf("Expectations validity check (should be all zeros):\n ")
 fprintf("Distribution validity check (should be all ones):\n") 
 (ones_matrix*xVector)'
 
-% Outputs
+% outputs
 
 pMatrix = reshape(xVector,N,M)';
 
 totalVariance = obj*xVector;
+fprintf("Var(A|X=x):\n")
+
