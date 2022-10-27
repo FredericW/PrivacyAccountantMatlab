@@ -1,4 +1,4 @@
-function [totalVariance,pMatrix,a_grid] = opt_variance(eps,delta,r,axRatio,x_grid,x_P)
+function [varVector,pMatrix,a_grid] = opt_variance(eps,delta,r,axRatio,x_grid,x_P)
 % Given the privacy parameter \epsilon,
 % we construct the comparison matrix A,
 % which contains the comparision between each pair of
@@ -84,8 +84,8 @@ Asq = a_matrix.^2;
 
 lb = zeros(1,M*N);
 ub = [];
-obj = x_P*Asq;
-xVector=linprog(obj,A,b,Aeq,beq,lb,ub);
+objMatrix = x_P*Asq;
+xVector=linprog(objMatrix,A,b,Aeq,beq,lb,ub);
 
 % Check solution validity
 
@@ -98,5 +98,7 @@ fprintf("Distribution validity check (should be all ones):\n")
 % Outputs
 
 pMatrix = reshape(xVector,N,M)';
+varVector = Asq*xVector;
 
-totalVariance = obj*xVector;
+fprintf("Variance vector:\n")
+varVector'
